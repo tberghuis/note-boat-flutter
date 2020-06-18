@@ -40,11 +40,26 @@ class DatabaseService {
     );
   }
 
-  Future<List<Note>> getNoteList() async {
-    // TODO
-    Database db = await this.db;
-    final List<Note> noteList = [];
 
-    return noteList;
+  // should i contain this here.... better to put in bloc if not 
+  // reused by multiple screens
+  // nah just copy from simple example for now
+
+  // Future<List<Note>> getNoteList() async {
+  //   // TODO
+  // delete empty notes
+  //   Database db = await this.db;
+  //   final List<Note> noteList = [];
+
+  //   return noteList;
+  // }
+
+
+
+  Future<int> insertNote(Note note) async {
+    Database db = await this.db;
+    final int result = await db.insert('note', note.toMap());
+    return result;
   }
+
 }

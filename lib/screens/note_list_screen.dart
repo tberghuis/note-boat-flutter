@@ -19,7 +19,7 @@ class NoteListScreen extends StatelessWidget {
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => NoteEditScreen(),
+            builder: (_) => NoteEditScreen(null),
           ),
         ),
       ),

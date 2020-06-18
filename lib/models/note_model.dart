@@ -4,8 +4,11 @@ class Note {
   // DateTime created_date;
   DateTime modifiedDate;
 
-  Note({this.noteText});
-  Note.withId({this.noteId, this.noteText, this.modifiedDate});
+  Note({this.noteId, this.noteText, this.modifiedDate}) {
+    if (noteText == null) {
+      noteText = "";
+    }
+  }
 
   Map<String, dynamic> toMap() {
     final map = Map<String, dynamic>();
@@ -18,7 +21,7 @@ class Note {
   }
 
   factory Note.fromMap(Map<String, dynamic> map) {
-    return Note.withId(
+    return Note(
         noteId: map['note_id'],
         noteText: map['note_text'],
         modifiedDate: DateTime.parse(map['modified_date']));

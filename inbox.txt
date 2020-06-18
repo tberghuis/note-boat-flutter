@@ -1,0 +1,13 @@
+on startup delete empty whitespace notes from db...
+for cases of process death when user left app on edit note screen
+
+write manual test cases around this
+
+strategy is eager save and insert
+update onchange
+insert on new note
+delete on back if only whitespace (await delete before pop navigate)
+delete on startup if only whitespace
+
+
+
