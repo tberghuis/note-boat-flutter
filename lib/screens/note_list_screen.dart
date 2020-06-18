@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes/blocs/note_list_bloc.dart';
 import 'package:notes/models/note_model.dart';
+import 'package:notes/screens/note_edit_screen.dart';
 
 class NoteListScreen extends StatelessWidget {
   @override
@@ -11,6 +12,16 @@ class NoteListScreen extends StatelessWidget {
       ),
       body: Container(
         child: NoteList(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        // TODO push named??? nah
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => NoteEditScreen(),
+          ),
+        ),
       ),
     );
   }
