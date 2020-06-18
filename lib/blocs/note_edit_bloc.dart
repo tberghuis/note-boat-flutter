@@ -8,14 +8,21 @@ class NoteEditBloc {
   Future<Note> initialisedNote;
 
   NoteEditBloc(int noteId) {
+    init(noteId);
+  }
+
+  Future<void> init(int noteId) async {
     // TODO
     // if noteid not null fetch note from db
     Note note = Note(noteId: noteId);
 
     // new note
     if (noteId == null) {
-      _ds.insertNote(note);
+
+      print('inserting note');
+      await _ds.insertNote(note);
     }
+    initialisedNote = Future<Note>.value(note);
   }
 
   // TODO on back delete note if text is only whitespace
