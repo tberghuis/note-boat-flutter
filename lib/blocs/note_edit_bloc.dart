@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:notes/models/note_model.dart';
 import 'package:notes/services/database_service.dart';
 
 class NoteEditBloc {
-  // int _noteId;
-  DatabaseService _ds = DatabaseService.instance;
 
-  Future<Note> initialisedNote;
+  DatabaseService _ds = DatabaseService.instance;
+  Completer _noteCompleter = new Completer<Note>();
+  Future<Note> get initialisedNote {
+    return _noteCompleter.future;
+  }
 
   NoteEditBloc(int noteId) {
     init(noteId);
@@ -18,11 +22,11 @@ class NoteEditBloc {
 
     // new note
     if (noteId == null) {
-
       print('inserting note');
       await _ds.insertNote(note);
     }
-    initialisedNote = Future<Note>.value(note);
+    // initialisedNote = Future<Note>.value(note);
+    _noteCompleter.complete(note);
   }
 
   // TODO on back delete note if text is only whitespace

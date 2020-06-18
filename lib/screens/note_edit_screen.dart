@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/blocs/note_edit_bloc.dart';
+import 'package:notes/models/note_model.dart';
 import 'package:provider/provider.dart';
 
 class NoteEditScreen extends StatelessWidget {
@@ -8,41 +9,53 @@ class NoteEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // NoteEditBloc noteEditBloc;
+
     return Provider(
-        // create: (_) => NoteEditBloc(_noteId),
-        create: (_) {
-          print('provider create');
-          NoteEditBloc(_noteId);
-        },
+        create: (_) => NoteEditBloc(_noteId),
+        // create: (_) {
+        //   print('provider create');
+        //   return NoteEditBloc(_noteId);
+        // },
         lazy: false,
         child: Scaffold(
           appBar: AppBar(
               // title: Text('Note Ed'),
               ),
           body: Container(
-            child: Text('note edit'),
+            child: NoteEditBody(),
+
+            // FutureBuilder(
+            //   future: noteEditBloc.initialisedNote,
+            // ),
           ),
         ));
   }
 }
 
-// class NoteEditScreen extends StatefulWidget {
-//   int noteId;
-//   NoteEditScreen(this.noteId);
-//   @override
-//   _NoteEditScreenState createState() => _NoteEditScreenState();
-// }
+class NoteEditBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    NoteEditBloc neb = Provider.of<NoteEditBloc>(context, listen: false);
 
-// class _NoteEditScreenState extends State<NoteEditScreen> {
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     print('noteid ${widget.noteId}');
-//   }
+    return FutureBuilder<Note>(
+        future: neb.initialisedNote,
+        builder: (BuildContext context, AsyncSnapshot<Note> snapshot) {
+          print('snapshot $snapshot');
+          print('snapshot.data ${snapshot.data}');
 
-//   @override
-//   Widget build(BuildContext context) {
+          return Dummy(snapshot.data);
+        });
+  }
+}
 
-//   }
-// }
+class Dummy extends StatelessWidget {
+  final Object o;
+  Dummy(this.o);
+
+  @override
+  Widget build(BuildContext context) {
+    print('o $o');
+    return Text('will object blend');
+  }
+}
