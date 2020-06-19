@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
   static final DatabaseService instance = DatabaseService._instance();
+
   static Database _db;
 
   DatabaseService._instance();
@@ -16,6 +17,7 @@ class DatabaseService {
   // // created_date
   // modified_date
 
+  // rename db???
   Future<Database> get db async {
     if (_db == null) {
       _db = await _initDb();
@@ -23,6 +25,7 @@ class DatabaseService {
     return _db;
   }
 
+  // i should really call this from Provider create
   Future<Database> _initDb() async {
     Directory dir = await getApplicationDocumentsDirectory();
     String path = dir.path + '/notes.db';
@@ -55,15 +58,32 @@ class DatabaseService {
 
   Future<int> insertNote(Note note) async {
     Database db = await this.db;
-
     note.modifiedDate = DateTime.now();
-
     // catch exception????
-
     final int result = await db.insert('note', note.toMap());
-
     note.noteId = result;
+    return result;
+  }
 
+  Future<int> updateNote(Note note) async {
+    Database db = await this.db;
+    note.modifiedDate = DateTime.now();
+    final int result = await db.update(
+      'note',
+      note.toMap(),
+      where: 'note_id = ?',
+      whereArgs: [note.noteId],
+    );
+    return result;
+  }
+
+  Future<int> deleteNote(Note note) async {
+    Database db = await this.db;
+    final int result = await db.delete(
+      'note',
+      where: 'note_id = ?',
+      whereArgs: [note.noteId],
+    );
     return result;
   }
 }

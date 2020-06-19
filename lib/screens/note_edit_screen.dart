@@ -38,24 +38,34 @@ class NoteEditBody extends StatelessWidget {
   Widget build(BuildContext context) {
     NoteEditBloc neb = Provider.of<NoteEditBloc>(context, listen: false);
 
-    return FutureBuilder<Note>(
+    return WillPopScope(
+      onWillPop: neb.onWillPop,
+      child: FutureBuilder<Note>(
         future: neb.initialisedNote,
         builder: (BuildContext context, AsyncSnapshot<Note> snapshot) {
-          print('snapshot $snapshot');
-          print('snapshot.data ${snapshot.data}');
-
-          return Dummy(snapshot.data);
-        });
+          Note n = snapshot.data;
+          if (n == null) {
+            return Container();
+          }
+          return TextFormField(
+            initialValue: n.noteText,
+            onChanged: neb.onNoteChanged,
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+          );
+        },
+      ),
+    );
   }
 }
 
-class Dummy extends StatelessWidget {
-  final Object o;
-  Dummy(this.o);
+// class Dummy extends StatelessWidget {
+//   final Object o;
+//   Dummy(this.o);
 
-  @override
-  Widget build(BuildContext context) {
-    print('o $o');
-    return Text('will object blend');
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     print('o $o');
+//     return Text('will object blend');
+//   }
+// }

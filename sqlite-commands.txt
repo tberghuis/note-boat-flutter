@@ -9,3 +9,5 @@ cd /data/user/0/com.example.notes/app_flutter
 sqlite3 notes.db
 
 select * from note;
+
+delete from note;
