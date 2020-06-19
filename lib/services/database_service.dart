@@ -58,7 +58,12 @@ class DatabaseService {
 
     note.modifiedDate = DateTime.now();
 
+    // catch exception????
+
     final int result = await db.insert('note', note.toMap());
+
+    note.noteId = result;
+
     return result;
   }
 }

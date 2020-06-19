@@ -4,7 +4,6 @@ import 'package:notes/models/note_model.dart';
 import 'package:notes/services/database_service.dart';
 
 class NoteEditBloc {
-
   DatabaseService _ds = DatabaseService.instance;
   Completer _noteCompleter = new Completer<Note>();
   Future<Note> get initialisedNote {
@@ -24,6 +23,8 @@ class NoteEditBloc {
     if (noteId == null) {
       print('inserting note');
       await _ds.insertNote(note);
+
+      // print('noteId ${note.noteId}');
     }
     // initialisedNote = Future<Note>.value(note);
     _noteCompleter.complete(note);
