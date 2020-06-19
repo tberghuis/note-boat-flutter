@@ -52,6 +52,7 @@ class NoteEditBody extends StatelessWidget {
             onChanged: neb.onNoteChanged,
             keyboardType: TextInputType.multiline,
             maxLines: null,
+            autofocus: true,
           );
         },
       ),
