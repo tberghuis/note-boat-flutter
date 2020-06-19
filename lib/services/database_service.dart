@@ -20,26 +20,6 @@ class DatabaseService {
 
   DatabaseService._instance();
 
-  // DatabaseService._instance() {
-  //   _dbFuture = () async {
-  //     Directory dir = await getApplicationDocumentsDirectory();
-  //     String path = dir.path + '/notes.db';
-  //     return await openDatabase(path, version: 1, onCreate: _createDb);
-  //   }();
-  // }
-
-  // table note
-  // cols:
-  // note_id
-  // note_text
-  // // created_date
-  // modified_date
-
-  // static Future<void> _createDb(Database db, int version) async {
-  //   await db.execute(
-  //     'CREATE TABLE note(note_id INTEGER PRIMARY KEY AUTOINCREMENT, note_text TEXT, modified_date TEXT)',
-  //   );
-  // }
 
   // should i contain this here.... better to put in bloc if not
   // reused by multiple screens
