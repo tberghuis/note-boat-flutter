@@ -1,16 +1,27 @@
+import 'dart:async';
+
 import 'package:notes/models/note_model.dart';
 import 'package:notes/services/database_service.dart';
 
 // TODO use provider, streams and dispose controllers
 
+// don't be a singleton...
+
 class NoteListBloc {
-  // DatabaseService ds;
+  DatabaseService ds = DatabaseService.instance;
 
-  static final NoteListBloc instance = NoteListBloc._instance();
-  NoteListBloc._instance();
+  final _noteList = StreamController<List<Note>>();
 
-  // Future<List<Note>> Function() getNoteList = () => DatabaseService.instance.getNoteList();
+  Stream<List<Note>> get noteListStream => _noteList.stream;
 
-  Future<List<Note>> Function() getNoteList =
-      DatabaseService.instance.getNoteList;
+  NoteListBloc() {
+    () async {
+      List<Note> allNotes = await ds.getNoteList();
+      _noteList.sink.add(allNotes);
+    }();
+  }
+
+  dispose() {
+    _noteList.close();
+  }
 }

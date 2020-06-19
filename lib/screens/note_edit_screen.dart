@@ -9,25 +9,13 @@ class NoteEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // NoteEditBloc noteEditBloc;
-
     return Provider(
         create: (_) => NoteEditBloc(_noteId),
-        // create: (_) {
-        //   print('provider create');
-        //   return NoteEditBloc(_noteId);
-        // },
         lazy: false,
         child: Scaffold(
-          appBar: AppBar(
-              // title: Text('Note Ed'),
-              ),
+          appBar: AppBar(),
           body: Container(
             child: NoteEditBody(),
-
-            // FutureBuilder(
-            //   future: noteEditBloc.initialisedNote,
-            // ),
           ),
         ));
   }
