@@ -5,18 +5,16 @@ import 'package:notes/services/database_service.dart';
 
 class NoteEditBloc {
   DatabaseService _ds = DatabaseService.instance;
-  // Completer _noteCompleter = new Completer<Note>();
-  // Future<Note> get initialisedNote {
-  //   return _noteCompleter.future;
-  // }
 
+  
   Future<Note> initialisedNote;
 
   NoteEditBloc(int noteId) {
-    initialisedNote = init(noteId);
+    initialisedNote = _init(noteId);
   }
 
-  Future<Note> init(int noteId) async {
+  // only called from constructor
+  Future<Note> _init(int noteId) async {
     Note note = Note(noteId: noteId);
 
     // new note
@@ -27,27 +25,12 @@ class NoteEditBloc {
     return note;
   }
 
-  // Future<void> init(int noteId) async {
-  //   // TODO
-  //   // if noteid not null fetch note from db
-  //   Note note = Note(noteId: noteId);
 
-  //   // new note
-  //   if (noteId == null) {
-  //     print('inserting note');
-  //     await _ds.insertNote(note);
 
-  //     // print('noteId ${note.noteId}');
-  //   }
-  //   // initialisedNote = Future<Note>.value(note);
-  //   _noteCompleter.complete(note);
-  // }
-
-  // TODO on back delete note if text is only whitespace
+  
 
   onNoteChanged(String noteText) async {
     Note n = await initialisedNote;
-
     // no change return or whitespace (TODO)
     if (n.noteText == noteText) {
       return;
@@ -57,6 +40,8 @@ class NoteEditBloc {
     _ds.updateNote(n);
   }
 
+
+  // on back delete note if text is only whitespace
   Future<bool> onWillPop() async {
     Note n = await initialisedNote;
     if (n.noteText.replaceAll(new RegExp(r"\s"), "").length == 0) {
