@@ -40,6 +40,11 @@ class NoteList extends StatelessWidget {
     NoteListBloc nlBloc = Provider.of<NoteListBloc>(context, listen: false);
 
     // TODO streambuilder
-    return Text('note list blend');
+    // return Text('note list blend');
+    return StreamBuilder(
+        stream: nlBloc.noteListStream,
+        builder: (context, asyncSnapshot) {
+          return Text('note list stream blend');
+        });
   }
 }
