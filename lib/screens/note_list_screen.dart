@@ -11,31 +11,7 @@ class NoteListScreen extends StatelessWidget {
       create: (_) => NoteListBloc(),
       lazy: false,
       dispose: (_, bloc) => bloc.dispose(),
-      builder: (context, _) {
-        // No longer throws, should have just used child widget with consumer or stateful
-        NoteListBloc nlBloc = context.watch<NoteListBloc>();
-
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('Note Boat'),
-          ),
-          body: Container(
-            child: NoteList(),
-          ),
-          floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              // TODO push named??? nah
-              onPressed: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => NoteEditScreen(null),
-                  ),
-                );
-                nlBloc.refreshNoteList();
-              }),
-        );
-      },
+      child: NoteList(),
     );
   }
 }
@@ -49,26 +25,47 @@ class NoteList extends StatelessWidget {
   Widget build(BuildContext context) {
     NoteListBloc nlBloc = Provider.of<NoteListBloc>(context, listen: false);
 
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Note Boat'),
+      ),
+      body: Container(
+        child: StreamBuilder(
+            stream: nlBloc.noteListStream,
+            builder: (context, asyncSnapshot) {
+              if (asyncSnapshot.data == null) {
+                return SizedBox.shrink();
+              }
+
+              List<Note> nl = asyncSnapshot.data;
+
+              print('asyncSnapshot.data ${asyncSnapshot.data}');
+              return ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: nl.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                      child: Text(getFirstLine(nl[index].noteText)));
+                },
+              );
+            }),
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          // TODO push named??? nah
+          onPressed: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => NoteEditScreen(null),
+              ),
+            );
+            nlBloc.refreshNoteList();
+          }),
+    );
+
     // TODO streambuilder
     // return Text('note list blend');
-    return StreamBuilder(
-        stream: nlBloc.noteListStream,
-        builder: (context, asyncSnapshot) {
-          if (asyncSnapshot.data == null) {
-            return SizedBox.shrink();
-          }
-
-          List<Note> nl = asyncSnapshot.data;
-
-          print('asyncSnapshot.data ${asyncSnapshot.data}');
-          return ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: nl.length,
-            itemBuilder: (context, index) {
-              return Container(child: Text(getFirstLine(nl[index].noteText)));
-            },
-          );
-        });
   }
 }
 
