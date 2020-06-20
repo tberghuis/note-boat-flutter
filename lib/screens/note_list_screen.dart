@@ -12,7 +12,7 @@ class NoteListScreen extends StatelessWidget {
       lazy: false,
       dispose: (_, bloc) => bloc.dispose(),
       builder: (context, _) {
-        // No longer throws
+        // No longer throws, should have just used child widget with consumer or stateful
         NoteListBloc nlBloc = context.watch<NoteListBloc>();
 
         return Scaffold(
