@@ -4,11 +4,17 @@ class Note {
   DateTime createdDate;
   DateTime modifiedDate;
 
+  // TODO assert noteId != null
   Note({this.noteId, this.noteText, this.modifiedDate, this.createdDate}) {
-    if (noteText == null) {
-      noteText = "";
-      createdDate = DateTime.now();
-    }
+    // if (noteText == null) {
+    //   noteText = "";
+    //   createdDate = DateTime.now();
+    // }
+  }
+
+  Note.create() {
+    noteText = "";
+    createdDate = DateTime.now();
   }
 
   Map<String, dynamic> toMap() {

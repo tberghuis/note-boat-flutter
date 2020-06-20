@@ -8,19 +8,23 @@ class NoteEditBloc {
 
   Future<Note> initialisedNote;
 
-  NoteEditBloc(int noteId) {
-    initialisedNote = _init(noteId);
+  // NoteEditBloc(int noteId) {
+  //   initialisedNote = _init(noteId);
+  // }
+  NoteEditBloc(Note note) {
+    initialisedNote = _init(note);
   }
 
   // only called from constructor
-  Future<Note> _init(int noteId) async {
-    Note note = Note(noteId: noteId);
+  Future<Note> _init(Note note) async {
+    // Note note = Note(noteId: noteId);
 
     // new note
-    if (noteId == null) {
+    if (note.noteId == null) {
       print('inserting note');
       await _ds.insertNote(note);
     }
+
     return note;
   }
 

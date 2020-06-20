@@ -4,13 +4,13 @@ import 'package:notes/models/note_model.dart';
 import 'package:provider/provider.dart';
 
 class NoteEditScreen extends StatelessWidget {
-  final int _noteId;
-  NoteEditScreen(this._noteId);
+  final Note _note;
+  NoteEditScreen(this._note);
 
   @override
   Widget build(BuildContext context) {
     return Provider(
-        create: (_) => NoteEditBloc(_noteId),
+        create: (_) => NoteEditBloc(_note),
         lazy: false,
         child: Scaffold(
           appBar: AppBar(),
