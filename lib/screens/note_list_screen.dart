@@ -63,9 +63,6 @@ class NoteList extends StatelessWidget {
           onPressed: () =>
               navigateNoteEditScreen(context, Note.create(), nlBloc)),
     );
-
-    // TODO streambuilder
-    // return Text('note list blend');
   }
 }
 

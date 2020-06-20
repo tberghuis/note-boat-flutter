@@ -4,13 +4,8 @@ class Note {
   DateTime createdDate;
   DateTime modifiedDate;
 
-  // TODO assert noteId != null
-  Note({this.noteId, this.noteText, this.modifiedDate, this.createdDate}) {
-    // if (noteText == null) {
-    //   noteText = "";
-    //   createdDate = DateTime.now();
-    // }
-  }
+  // TODO assert noteId != null etc
+  Note({this.noteId, this.noteText, this.modifiedDate, this.createdDate}) {}
 
   Note.create() {
     noteText = "";

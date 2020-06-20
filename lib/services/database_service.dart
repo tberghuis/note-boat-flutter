@@ -27,7 +27,6 @@ class DatabaseService {
   // nah just copy from simple example for now
 
   Future<List<Note>> getNoteList() async {
-    
     Database db = await _dbFuture;
     final List<Map<String, dynamic>> noteMapList = await db.query('note');
 

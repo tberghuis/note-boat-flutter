@@ -38,14 +38,3 @@ class NoteEditBody extends StatelessWidget {
     );
   }
 }
-
-// class Dummy extends StatelessWidget {
-//   final Object o;
-//   Dummy(this.o);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     print('o $o');
-//     return Text('will object blend');
-//   }
-// }
