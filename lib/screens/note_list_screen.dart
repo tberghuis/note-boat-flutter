@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/blocs/note_list_bloc.dart';
+import 'package:notes/models/note_model.dart';
 import 'package:notes/screens/note_edit_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -46,9 +47,24 @@ class NoteList extends StatelessWidget {
     return StreamBuilder(
         stream: nlBloc.noteListStream,
         builder: (context, asyncSnapshot) {
-          // print('asyncSnapshot $asyncSnapshot');
+          if (asyncSnapshot.data == null) {
+            return SizedBox.shrink();
+          }
+
+          List<Note> nl = asyncSnapshot.data;
+
           print('asyncSnapshot.data ${asyncSnapshot.data}');
-          return Text('note list stream blend');
+          return ListView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: nl.length,
+            itemBuilder: (context, index) {
+              return Container(child: Text(getFirstLine(nl[index].noteText)));
+            },
+          );
         });
   }
+}
+
+String getFirstLine(String note) {
+  return note.trim().split('\n')[0];
 }
