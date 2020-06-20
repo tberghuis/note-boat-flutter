@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<void> _createDb(Database db, int version) async {
   await db.execute(
-    'CREATE TABLE note(note_id INTEGER PRIMARY KEY AUTOINCREMENT, note_text TEXT, modified_date TEXT)',
+    'CREATE TABLE note(note_id INTEGER PRIMARY KEY AUTOINCREMENT, note_text TEXT, modified_date TEXT, created_date TEXT)',
   );
 }
 
