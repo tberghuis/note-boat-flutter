@@ -34,6 +34,8 @@ class NoteListScreen extends StatelessWidget {
 
 // doing it wrong...
 
+// anyway to consume provider without child widget???
+
 class NoteList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,8 @@ class NoteList extends StatelessWidget {
     return StreamBuilder(
         stream: nlBloc.noteListStream,
         builder: (context, asyncSnapshot) {
+          // print('asyncSnapshot $asyncSnapshot');
+          print('asyncSnapshot.data ${asyncSnapshot.data}');
           return Text('note list stream blend');
         });
   }

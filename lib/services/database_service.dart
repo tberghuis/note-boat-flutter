@@ -9,6 +9,8 @@ Future<void> _createDb(Database db, int version) async {
   );
 }
 
+// in future use dependency injection???
+
 class DatabaseService {
   static final DatabaseService instance = DatabaseService._instance();
 
@@ -20,17 +22,23 @@ class DatabaseService {
 
   DatabaseService._instance();
 
-
   // should i contain this here.... better to put in bloc if not
   // reused by multiple screens
   // nah just copy from simple example for now
 
   Future<List<Note>> getNoteList() async {
     // TODO
-    // delete empty notes
-    // Database db = await this.db;
-    final List<Note> noteList = [];
+    // delete empty notes here...
 
+    Database db = await _dbFuture;
+    final List<Map<String, dynamic>> noteMapList = await db.query('note');
+
+    final List<Note> noteList = [];
+    noteMapList.forEach((noteMap) {
+      noteList.add(Note.fromMap(noteMap));
+    });
+    noteList.sort(
+        (taskA, taskB) => taskA.modifiedDate.compareTo(taskB.modifiedDate));
     return noteList;
   }
 

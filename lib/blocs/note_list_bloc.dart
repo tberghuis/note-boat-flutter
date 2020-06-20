@@ -15,9 +15,12 @@ class NoteListBloc {
   Stream<List<Note>> get noteListStream => _noteList.stream;
 
   NoteListBloc() {
+    print('NoteListBloc');
+
     () async {
       List<Note> allNotes = await ds.getNoteList();
       _noteList.sink.add(allNotes);
+      print('NoteListBloc init');
     }();
   }
 
