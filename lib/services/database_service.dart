@@ -38,7 +38,7 @@ class DatabaseService {
       noteList.add(Note.fromMap(noteMap));
     });
     noteList.sort(
-        (taskA, taskB) => taskA.modifiedDate.compareTo(taskB.modifiedDate));
+        (taskA, taskB) => taskB.modifiedDate.compareTo(taskA.modifiedDate));
     return noteList;
   }
 
