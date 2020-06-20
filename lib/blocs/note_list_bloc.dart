@@ -17,11 +17,17 @@ class NoteListBloc {
   NoteListBloc() {
     print('NoteListBloc');
 
-    () async {
-      List<Note> allNotes = await ds.getNoteList();
-      _noteList.sink.add(allNotes);
-      print('NoteListBloc init');
-    }();
+    refreshNoteList();
+    // () async {
+    //   List<Note> allNotes = await ds.getNoteList();
+    //   _noteList.sink.add(allNotes);
+    //   print('NoteListBloc init');
+    // }();
+  }
+
+  Future<void> refreshNoteList() async {
+    List<Note> allNotes = await ds.getNoteList();
+    _noteList.sink.add(allNotes);
   }
 
   dispose() {

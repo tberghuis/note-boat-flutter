@@ -19,15 +19,17 @@ class NoteListScreen extends StatelessWidget {
           child: NoteList(),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          // TODO push named??? nah
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => NoteEditScreen(null),
-            ),
-          ),
-        ),
+            child: Icon(Icons.add),
+            // TODO push named??? nah
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => NoteEditScreen(null),
+                ),
+              );
+              context.read<NoteListBloc>().refreshNoteList();
+            }),
       ),
     );
   }
