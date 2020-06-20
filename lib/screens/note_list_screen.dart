@@ -59,7 +59,7 @@ class NoteList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          // TODO push named??? nah
+          // push named??? nah
           onPressed: () =>
               navigateNoteEditScreen(context, Note.create(), nlBloc)),
     );

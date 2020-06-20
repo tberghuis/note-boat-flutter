@@ -34,7 +34,7 @@ class DatabaseService {
     noteMapList.forEach((noteMap) {
       Note n = Note.fromMap(noteMap);
       // delete empty notes eagerly svaed but not cleared because of process death
-      // TODO test with adb kill process
+      // ??? test with adb kill process
       if (n.noteText.trim().length == 0) {
         deleteNote(n);
         return;

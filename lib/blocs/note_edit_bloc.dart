@@ -32,7 +32,7 @@ class NoteEditBloc {
     return true;
   }
 
-  // TODO remove???
+  // remove???
   dispose() {
     // _textController.close();
   }
