@@ -24,25 +24,16 @@ class NoteEditScreen extends StatelessWidget {
 class NoteEditBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    NoteEditBloc neb = Provider.of<NoteEditBloc>(context, listen: false);
+    NoteEditBloc neBloc = Provider.of<NoteEditBloc>(context, listen: false);
 
     return WillPopScope(
-      onWillPop: neb.onWillPop,
-      child: FutureBuilder<Note>(
-        future: neb.initialisedNote,
-        builder: (BuildContext context, AsyncSnapshot<Note> snapshot) {
-          Note n = snapshot.data;
-          if (n == null) {
-            return Container();
-          }
-          return TextFormField(
-            initialValue: n.noteText,
-            onChanged: neb.onNoteChanged,
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            autofocus: true,
-          );
-        },
+      onWillPop: neBloc.onWillPop,
+      child: TextFormField(
+        initialValue: neBloc.note.noteText,
+        onChanged: neBloc.onNoteChanged,
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        autofocus: true,
       ),
     );
   }
