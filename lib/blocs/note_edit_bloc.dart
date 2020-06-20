@@ -6,7 +6,6 @@ import 'package:notes/services/database_service.dart';
 class NoteEditBloc {
   DatabaseService _ds = DatabaseService.instance;
 
-  
   Future<Note> initialisedNote;
 
   NoteEditBloc(int noteId) {
@@ -25,10 +24,6 @@ class NoteEditBloc {
     return note;
   }
 
-
-
-  
-
   onNoteChanged(String noteText) async {
     Note n = await initialisedNote;
     // no change return or whitespace (TODO)
@@ -40,13 +35,12 @@ class NoteEditBloc {
     _ds.updateNote(n);
   }
 
-
   // on back delete note if text is only whitespace
   Future<bool> onWillPop() async {
     Note n = await initialisedNote;
     if (n.noteText.replaceAll(new RegExp(r"\s"), "").length == 0) {
       // delete from db, no need to await
-      _ds.deleteNote(n);
+      await _ds.deleteNote(n);
     }
     return true;
   }
