@@ -27,15 +27,20 @@ class DatabaseService {
   // nah just copy from simple example for now
 
   Future<List<Note>> getNoteList() async {
-    // TODO
-    // delete empty notes here...
-
+    
     Database db = await _dbFuture;
     final List<Map<String, dynamic>> noteMapList = await db.query('note');
 
     final List<Note> noteList = [];
     noteMapList.forEach((noteMap) {
-      noteList.add(Note.fromMap(noteMap));
+      Note n = Note.fromMap(noteMap);
+      // delete empty notes eagerly svaed but not cleared because of process death
+      // TODO test
+      if (n.noteText.trim().length == 0) {
+        deleteNote(n);
+        return;
+      }
+      noteList.add(n);
     });
     noteList.sort(
         (taskA, taskB) => taskB.modifiedDate.compareTo(taskA.modifiedDate));
