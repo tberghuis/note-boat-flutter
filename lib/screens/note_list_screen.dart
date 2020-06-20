@@ -49,6 +49,8 @@ class NoteList extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 20.0),
                       ),
+                      onTap: () => navigateNoteEditScreen(
+                          context, nl[index].noteId, nlBloc),
                     ),
                   );
                 },
@@ -58,15 +60,7 @@ class NoteList extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           // TODO push named??? nah
-          onPressed: () async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => NoteEditScreen(null),
-              ),
-            );
-            nlBloc.refreshNoteList();
-          }),
+          onPressed: () => navigateNoteEditScreen(context, null, nlBloc)),
     );
 
     // TODO streambuilder
@@ -76,4 +70,18 @@ class NoteList extends StatelessWidget {
 
 String getFirstLine(String note) {
   return note.trim().split('\n')[0];
+}
+
+Future<void> navigateNoteEditScreen(
+  context,
+  int noteId,
+  NoteListBloc nlBloc,
+) async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => NoteEditScreen(noteId),
+    ),
+  );
+  nlBloc.refreshNoteList();
 }
