@@ -18,8 +18,6 @@ class NoteListScreen extends StatelessWidget {
 
 // doing it wrong...
 
-// anyway to consume provider without child widget???
-
 class NoteList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -44,8 +42,15 @@ class NoteList extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 itemCount: nl.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                      child: Text(getFirstLine(nl[index].noteText)));
+                  return Card(
+                    child: ListTile(
+                      title: Text(
+                        getFirstLine(nl[index].noteText),
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                  );
                 },
               );
             }),
