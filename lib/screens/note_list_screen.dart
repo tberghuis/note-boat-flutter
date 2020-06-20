@@ -11,26 +11,31 @@ class NoteListScreen extends StatelessWidget {
       create: (_) => NoteListBloc(),
       lazy: false,
       dispose: (_, bloc) => bloc.dispose(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Note Boat'),
-        ),
-        body: Container(
-          child: NoteList(),
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            // TODO push named??? nah
-            onPressed: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => NoteEditScreen(null),
-                ),
-              );
-              context.read<NoteListBloc>().refreshNoteList();
-            }),
-      ),
+      builder: (context, _) {
+        // No longer throws
+        NoteListBloc nlBloc = context.watch<NoteListBloc>();
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Note Boat'),
+          ),
+          body: Container(
+            child: NoteList(),
+          ),
+          floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              // TODO push named??? nah
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => NoteEditScreen(null),
+                  ),
+                );
+                nlBloc.refreshNoteList();
+              }),
+        );
+      },
     );
   }
 }
