@@ -32,6 +32,11 @@ class NoteEditBloc {
     return true;
   }
 
+  Future<void> deleteNote() async {
+    print('delete note');
+    await _ds.deleteNote(note);
+  }
+
   // remove???
   dispose() {
     // _textController.close();

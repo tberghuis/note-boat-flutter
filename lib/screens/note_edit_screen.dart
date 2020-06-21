@@ -12,12 +12,28 @@ class NoteEditScreen extends StatelessWidget {
     return Provider(
         create: (_) => NoteEditBloc(_note),
         lazy: false,
-        child: Scaffold(
-          appBar: AppBar(),
-          body: Container(
-            child: NoteEditBody(),
+        child: NoteEditScaffold());
+  }
+}
+
+class NoteEditScaffold extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    NoteEditBloc neBloc = Provider.of<NoteEditBloc>(context, listen: false);
+    return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.delete),
+            tooltip: 'Delete Note',
+            onPressed: () => _deleteDialog(context, neBloc),
           ),
-        ));
+        ],
+      ),
+      body: Container(
+        child: NoteEditBody(),
+      ),
+    );
   }
 }
 
@@ -37,4 +53,37 @@ class NoteEditBody extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _deleteDialog(context, neBloc) async {
+  bool confirmDelete = await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        // title: Text('AlertDialog Title'),
+        content: SingleChildScrollView(child: Text('Confirm Delete?')),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          ),
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+          ),
+        ],
+      );
+    },
+  );
+
+  if (confirmDelete == true) {
+    await neBloc.deleteNote();
+    Navigator.of(context).pop();
+  }
+
+  // print('dialogRet $dialogRet');
 }
