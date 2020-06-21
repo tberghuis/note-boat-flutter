@@ -30,9 +30,17 @@ class NoteEditScaffold extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: NoteEditBody(),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: NoteEditBody(),
+          ),
+        ),
       ),
+      // this should somehow be derived from theme
+      backgroundColor: Color(0xffe8f7ff),
     );
   }
 }
@@ -45,17 +53,24 @@ class NoteEditBody extends StatelessWidget {
     return WillPopScope(
       onWillPop: neBloc.onWillPop,
       child: TextFormField(
+        style: TextStyle(fontSize: 20.0),
+        decoration: InputDecoration.collapsed(hintText: 'new note text...'),
         initialValue: neBloc.note.noteText,
         onChanged: neBloc.onNoteChanged,
         keyboardType: TextInputType.multiline,
         maxLines: null,
-        autofocus: true,
+        // autofocus: true,
       ),
     );
   }
 }
 
-Future<void> _deleteDialog(context, neBloc) async {
+Future<void> _deleteDialog(context, NoteEditBloc neBloc) async {
+  if (neBloc.isEmptyNote()) {
+    await neBloc.deleteNote();
+    Navigator.of(context).pop();
+    return;
+  }
   bool confirmDelete = await showDialog(
     context: context,
     builder: (BuildContext context) {

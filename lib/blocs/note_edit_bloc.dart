@@ -24,12 +24,17 @@ class NoteEditBloc {
   }
 
   // on back delete note if text is only whitespace
+  // shouldn't contain UI logic here (i.e. pop)
   Future<bool> onWillPop() async {
-    if (note.noteText.replaceAll(new RegExp(r"\s"), "").length == 0) {
+    if (isEmptyNote()) {
       // delete from db, no need to await
       await _ds.deleteNote(note);
     }
     return true;
+  }
+
+  bool isEmptyNote() {
+    return note.noteText.replaceAll(new RegExp(r"\s"), "").length == 0;
   }
 
   Future<void> deleteNote() async {

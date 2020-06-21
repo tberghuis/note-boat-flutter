@@ -27,6 +27,8 @@ class NoteList extends StatelessWidget {
       appBar: AppBar(
         title: Text('Note Boat'),
       ),
+      // this should somehow be derived from theme
+      backgroundColor: Color(0xffe8f7ff),
       body: Container(
         child: StreamBuilder(
             stream: nlBloc.noteListStream,
