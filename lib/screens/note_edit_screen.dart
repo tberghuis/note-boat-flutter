@@ -59,7 +59,7 @@ class NoteEditBody extends StatelessWidget {
         onChanged: neBloc.onNoteChanged,
         keyboardType: TextInputType.multiline,
         maxLines: null,
-        // autofocus: true,
+        autofocus: neBloc.note.noteId == null,
       ),
     );
   }
