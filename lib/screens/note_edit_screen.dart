@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+
 import 'package:notes/blocs/note_edit_bloc.dart';
 import 'package:notes/models/note_model.dart';
+import 'package:notes/widgets/keyboard_listener.dart';
 import 'package:provider/provider.dart';
 
 class NoteEditScreen extends StatelessWidget {
@@ -11,35 +12,17 @@ class NoteEditScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-        create: (_) => NoteEditBloc(_note),
-        lazy: false,
-        child: KeyboardListener(child: NoteEditScaffold()));
-  }
-}
-
-class KeyboardListener extends StatefulWidget {
-  final Widget child;
-  KeyboardListener({@required this.child});
-  @override
-  _KeyboardListenerState createState() => _KeyboardListenerState();
-}
-
-class _KeyboardListenerState extends State<KeyboardListener> {
-  @override
-  void initState() {
-    super.initState();
-    KeyboardVisibilityNotification().addNewListener(
-      onChange: (bool visible) {
-        if (!visible) {
-          _unfocus(context);
-        }
-      },
+      create: (_) => NoteEditBloc(_note),
+      lazy: false,
+      child: KeyboardListener(
+        child: NoteEditScaffold(),
+        onChange: (bool visible) {
+          if (!visible) {
+            _unfocus(context);
+          }
+        },
+      ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
   }
 }
 
