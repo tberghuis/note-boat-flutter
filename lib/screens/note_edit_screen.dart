@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:notes/blocs/note_edit_bloc.dart';
 import 'package:notes/models/note_model.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,33 @@ class NoteEditScreen extends StatelessWidget {
     return Provider(
         create: (_) => NoteEditBloc(_note),
         lazy: false,
-        child: NoteEditScaffold());
+        child: KeyboardListener(child: NoteEditScaffold()));
+  }
+}
+
+class KeyboardListener extends StatefulWidget {
+  final Widget child;
+  KeyboardListener({@required this.child});
+  @override
+  _KeyboardListenerState createState() => _KeyboardListenerState();
+}
+
+class _KeyboardListenerState extends State<KeyboardListener> {
+  @override
+  void initState() {
+    super.initState();
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        if (!visible) {
+          _unfocus(context);
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }
 
@@ -21,12 +48,7 @@ class NoteEditScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     NoteEditBloc neBloc = Provider.of<NoteEditBloc>(context, listen: false);
     return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
+      onTap: () => _unfocus(context),
       child: Scaffold(
         appBar: AppBar(
           actions: <Widget>[
@@ -111,4 +133,11 @@ Future<void> _deleteDialog(context, NoteEditBloc neBloc) async {
   }
 
   // print('dialogRet $dialogRet');
+}
+
+void _unfocus(context) {
+  FocusScopeNode currentFocus = FocusScope.of(context);
+  if (!currentFocus.hasPrimaryFocus) {
+    currentFocus.unfocus();
+  }
 }
