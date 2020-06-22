@@ -20,27 +20,37 @@ class NoteEditScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NoteEditBloc neBloc = Provider.of<NoteEditBloc>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.delete),
-            tooltip: 'Delete Note',
-            onPressed: () => _deleteDialog(context, neBloc),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.delete),
+              tooltip: 'Delete Note',
+              onPressed: () => _deleteDialog(context, neBloc),
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: NoteEditBody(),
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: NoteEditBody(),
+              ),
+            ),
           ),
         ),
+        // this should somehow be derived from theme
+        backgroundColor: Color(0xffe8f7ff),
       ),
-      // this should somehow be derived from theme
-      backgroundColor: Color(0xffe8f7ff),
     );
   }
 }
