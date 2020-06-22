@@ -25,9 +25,10 @@ class _KeyboardListenerState extends State<KeyboardListener> {
     return widget.child;
   }
 
-  @override
-  void dispose() {
-    KeyboardVisibilityNotification().removeListener(_sId);
-    super.dispose();
-  }
+  // dont need as KeyboardVisibilityNotification will dispose???
+  // @override
+  // void dispose() {
+  //   KeyboardVisibilityNotification().removeListener(_sId);
+  //   super.dispose();
+  // }
 }
