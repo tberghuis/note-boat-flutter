@@ -11,11 +11,13 @@ class KeyboardListener extends StatefulWidget {
 
 class _KeyboardListenerState extends State<KeyboardListener> {
   int _sId;
+  KeyboardVisibilityNotification _kvn;
 
   @override
   void initState() {
     super.initState();
-    _sId = KeyboardVisibilityNotification().addNewListener(
+    _kvn = KeyboardVisibilityNotification();
+    _sId = _kvn.addNewListener(
       onChange: widget.onChange,
     );
   }
@@ -25,10 +27,10 @@ class _KeyboardListenerState extends State<KeyboardListener> {
     return widget.child;
   }
 
-  // dont need as KeyboardVisibilityNotification will dispose???
-  // @override
-  // void dispose() {
-  //   KeyboardVisibilityNotification().removeListener(_sId);
-  //   super.dispose();
-  // }
+  // is this needed???
+  @override
+  void dispose() {
+    _kvn.removeListener(_sId);
+    super.dispose();
+  }
 }
