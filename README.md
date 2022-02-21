@@ -1,3 +1,7 @@
+# Archived
+new repo: https://github.com/tberghuis/NoteBoat
+
+Ported code to kotlin jetpack compose
 # Note Boat
 
 Android app to manage notes.
